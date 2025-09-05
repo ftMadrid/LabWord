@@ -40,12 +40,12 @@ public class Funciones {
         int end = textPane.getSelectionEnd();
         if (start == end) {
             end = start + 1;
-        }
-
+        }//Basicamente revisa elemento por elemento de la seleccion
         for (int i = start; i < end; i++) {
-            Element elem = doc.getCharacterElement(i);
+            Element elem = doc.getCharacterElement(i);//Referencia al elemento
             AttributeSet attrs = elem.getAttributes();
             MutableAttributeSet newAttrs = new SimpleAttributeSet();
+            //Aplicarle ese aestilo
             if (estilo == StyleConstants.Bold) {
                 StyleConstants.setBold(newAttrs, !StyleConstants.isBold(attrs));
             } else if (estilo == StyleConstants.Italic) {
