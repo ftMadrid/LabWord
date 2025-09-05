@@ -34,12 +34,35 @@ public class Funciones {
         }
     }
 
-    public void aplicarEstilo() {//Aun no se xd
+    public void aplicarEstilo(Object estilo) {//Es lo de styleconstants
+        MutableAttributeSet attrs = new SimpleAttributeSet();
+        if (estilo == StyleConstants.Bold) {
+            StyleConstants.setBold(attrs, true);
+        } else if (estilo == StyleConstants.Italic) {
+            StyleConstants.setItalic(attrs, true);
+        } else if (estilo == StyleConstants.Underline) {
+            StyleConstants.setUnderline(attrs, true);
+        }
+        textPane.setCharacterAttributes(attrs, false);
+        
     }
 
-    public void guardarArchivo(File file) {//MANTENIMIENTO
+    public void guardarArchivo(File file) {//Pedir file si o si
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            new RTFEditorKit().write(fos, textPane.getDocument(), 0, textPane.getDocument().getLength());
+            JOptionPane.showMessageDialog(null, "Guardado correctamente");
+        } catch (Exception ex) {
+            System.out.println("Error ");
+        }
     }
 
-    public void abrirArchivo(File file) {//MANTENIMIENTO
+    public void abrirArchivo(File file) {//Pedir file
+        try (FileInputStream fis = new FileInputStream(file)) {
+            textPane.setDocument(new DefaultStyledDocument());
+            new RTFEditorKit().read(fis, textPane.getDocument(), 0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
+    
 }
