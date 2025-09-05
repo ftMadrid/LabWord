@@ -21,32 +21,32 @@ public class Main extends JFrame {
         
         Funciones funciones = new Funciones(textPane);
 
-        // Barra de herramientas
+        // para la barra de herramientas
         JToolBar toolBar = new JToolBar();
 
-        // Fuentes
+        // no movas estas cosas aaron esto es de fuentes
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] fuentesDisponibles = ge.getAvailableFontFamilyNames();
         fuentes = new JComboBox<>(fuentesDisponibles);
         fuentes.addActionListener(e -> funciones.cambiarFuente((String) fuentes.getSelectedItem()));
         toolBar.add(fuentes);
 
-        // Tamaños
+        // los tamanos
         Integer[] sizes = {12, 14, 16, 18, 24, 32, 48, 64};
         tamanos = new JComboBox<>(sizes);
         tamanos.setSelectedItem(16);
         tamanos.addActionListener(e -> funciones.cambiarTamano((Integer) tamanos.getSelectedItem()));
         toolBar.add(tamanos);
 
-        // Colores
-        JButton btnColor = new JButton("Color");
+        // para los colores
+        JButton btnColor = new JButton("Colores");
         btnColor.addActionListener(e -> {
             Color c = JColorChooser.showDialog(this, "Seleccione un color", Color.BLACK);
             funciones.cambiarColor(c);
         });
         toolBar.add(btnColor);
 
-        // Estilos
+        // para los estilos
         JButton btnBold = new JButton("B");
         btnBold.setFont(new Font("Arial", Font.BOLD, 12));
         btnBold.addActionListener(e -> funciones.aplicarEstilo(StyleConstants.Bold));
@@ -61,7 +61,7 @@ public class Main extends JFrame {
         btnUnderline.addActionListener(e -> funciones.aplicarEstilo(StyleConstants.Underline));
         toolBar.add(btnUnderline);
 
-        // Menú guardar/abrir
+        // el display de guardar y abrir
         JMenuBar menuBar = new JMenuBar();
         JMenu menuArchivo = new JMenu("Archivo");
 
