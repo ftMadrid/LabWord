@@ -2,7 +2,6 @@ package labword;
 
 import javax.swing.*;
 import javax.swing.text.*;
-import javax.swing.text.rtf.RTFEditorKit;
 import java.awt.*;
 import java.io.*;
 
@@ -12,8 +11,6 @@ public class Main extends JFrame {
     private JComboBox<String> fuentes;
     private JComboBox<Integer> tamanos;
 
-    Funciones funciones = new Funciones(textPane);
-
     public Main() {
         setTitle("Editor de Texto");
         setSize(800, 600);
@@ -21,6 +18,8 @@ public class Main extends JFrame {
 
         textPane = new JTextPane();
         JScrollPane scroll = new JScrollPane(textPane);
+        
+        Funciones funciones = new Funciones(textPane);
 
         // Barra de herramientas
         JToolBar toolBar = new JToolBar();
@@ -29,45 +28,60 @@ public class Main extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] fuentesDisponibles = ge.getAvailableFontFamilyNames();
         fuentes = new JComboBox<>(fuentesDisponibles);
-        //fuentes.addActionListener(e -> funciones.cambiarFuente());
+        fuentes.addActionListener(e -> funciones.cambiarFuente((String) fuentes.getSelectedItem()));
         toolBar.add(fuentes);
 
         // Tamaños
         Integer[] sizes = {12, 14, 16, 18, 24, 32, 48, 64};
         tamanos = new JComboBox<>(sizes);
         tamanos.setSelectedItem(16);
-        //tamanos.addActionListener(e -> cambiarTamano());
+        tamanos.addActionListener(e -> funciones.cambiarTamano((Integer) tamanos.getSelectedItem()));
         toolBar.add(tamanos);
 
         // Colores
-        JButton btnColor = new JButton("Colors");
-        //btnColor.addActionListener(e -> cambiarColor());
+        JButton btnColor = new JButton("Color");
+        btnColor.addActionListener(e -> {
+            Color c = JColorChooser.showDialog(this, "Seleccione un color", Color.BLACK);
+            funciones.cambiarColor(c);
+        });
         toolBar.add(btnColor);
 
         // Estilos
         JButton btnBold = new JButton("B");
         btnBold.setFont(new Font("Arial", Font.BOLD, 12));
-        //btnBold.addActionListener(e -> aplicarEstilo(StyleConstants.Bold));
+        btnBold.addActionListener(e -> funciones.aplicarEstilo(StyleConstants.Bold));
         toolBar.add(btnBold);
 
         JButton btnItalic = new JButton("I");
         btnItalic.setFont(new Font("Arial", Font.ITALIC, 12));
-        //btnItalic.addActionListener(e -> aplicarEstilo(StyleConstants.Italic));
+        btnItalic.addActionListener(e -> funciones.aplicarEstilo(StyleConstants.Italic));
         toolBar.add(btnItalic);
 
         JButton btnUnderline = new JButton("U");
-        //btnUnderline.addActionListener(e -> aplicarEstilo(StyleConstants.Underline));
+        btnUnderline.addActionListener(e -> funciones.aplicarEstilo(StyleConstants.Underline));
         toolBar.add(btnUnderline);
 
         // Menú guardar/abrir
         JMenuBar menuBar = new JMenuBar();
         JMenu menuArchivo = new JMenu("Archivo");
 
-        JMenuItem guardar = new JMenuItem("Guardar DOCX");
-        JMenuItem abrir = new JMenuItem("Abrir DOCX");
+        JMenuItem guardar = new JMenuItem("Guardar Documento");
+        JMenuItem abrir = new JMenuItem("Abrir Documento");
 
-        //guardar.addActionListener(e -> guardarArchivo());
-        //abrir.addActionListener(e -> abrirArchivo());
+        guardar.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                funciones.guardarArchivo(new File(chooser.getSelectedFile().getAbsolutePath() + ".docx"));
+            }
+        });
+        
+        abrir.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                funciones.abrirArchivo(chooser.getSelectedFile());
+            }
+        });
+        
         menuArchivo.add(guardar);
         menuArchivo.add(abrir);
         menuBar.add(menuArchivo);
