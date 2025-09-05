@@ -15,7 +15,7 @@ public class Main extends JFrame {
         setTitle("Editor de Texto");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        setResizable(false);
         textPane = new JTextPane();
         JScrollPane scroll = new JScrollPane(textPane);
         
