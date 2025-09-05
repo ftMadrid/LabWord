@@ -12,6 +12,8 @@ public class Main extends JFrame {
     private JComboBox<String> fuentes;
     private JComboBox<Integer> tamanos;
 
+    Funciones funciones = new Funciones(textPane);
+
     public Main() {
         setTitle("Editor de Texto");
         setSize(800, 600);
@@ -27,7 +29,7 @@ public class Main extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] fuentesDisponibles = ge.getAvailableFontFamilyNames();
         fuentes = new JComboBox<>(fuentesDisponibles);
-        //fuentes.addActionListener(e -> cambiarFuente());
+        //fuentes.addActionListener(e -> funciones.cambiarFuente());
         toolBar.add(fuentes);
 
         // Tamaños
@@ -54,7 +56,6 @@ public class Main extends JFrame {
         toolBar.add(btnItalic);
 
         JButton btnUnderline = new JButton("U");
-        btnUnderline.setFont(new Font("Arial", Font.ITALIC, 12));
         //btnUnderline.addActionListener(e -> aplicarEstilo(StyleConstants.Underline));
         toolBar.add(btnUnderline);
 
@@ -67,7 +68,6 @@ public class Main extends JFrame {
 
         //guardar.addActionListener(e -> guardarArchivo());
         //abrir.addActionListener(e -> abrirArchivo());
-
         menuArchivo.add(guardar);
         menuArchivo.add(abrir);
         menuBar.add(menuArchivo);
@@ -77,4 +77,11 @@ public class Main extends JFrame {
         add(toolBar, BorderLayout.NORTH);
         add(scroll, BorderLayout.CENTER);
     }
+
+    public static void main(String[] args) {
+
+        new Main().setVisible(true);
+
+    }
+
 }
