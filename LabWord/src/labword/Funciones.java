@@ -34,17 +34,27 @@ public class Funciones {
         }
     }
 
-    public void aplicarEstilo(Object estilo) {//Es lo de styleconstants
-        MutableAttributeSet attrs = new SimpleAttributeSet();
-        if (estilo == StyleConstants.Bold) {
-            StyleConstants.setBold(attrs, true);
-        } else if (estilo == StyleConstants.Italic) {
-            StyleConstants.setItalic(attrs, true);
-        } else if (estilo == StyleConstants.Underline) {
-            StyleConstants.setUnderline(attrs, true);
+    public void aplicarEstilo(Object estilo) {
+        StyledDocument doc = textPane.getStyledDocument();
+        int start = textPane.getSelectionStart();
+        int end = textPane.getSelectionEnd();
+        if (start == end) {
+            end = start + 1;
         }
-        textPane.setCharacterAttributes(attrs, false);
-        
+
+        for (int i = start; i < end; i++) {
+            Element elem = doc.getCharacterElement(i);
+            AttributeSet attrs = elem.getAttributes();
+            MutableAttributeSet newAttrs = new SimpleAttributeSet();
+            if (estilo == StyleConstants.Bold) {
+                StyleConstants.setBold(newAttrs, !StyleConstants.isBold(attrs));
+            } else if (estilo == StyleConstants.Italic) {
+                StyleConstants.setItalic(newAttrs, !StyleConstants.isItalic(attrs));
+            } else if (estilo == StyleConstants.Underline) {
+                StyleConstants.setUnderline(newAttrs, !StyleConstants.isUnderline(attrs));
+            }
+            doc.setCharacterAttributes(i, 1, newAttrs, false);
+        }
     }
 
     public void guardarArchivo(File file) {//Pedir file si o si
@@ -64,5 +74,5 @@ public class Funciones {
             ex.printStackTrace();
         }
     }
-    
+
 }
